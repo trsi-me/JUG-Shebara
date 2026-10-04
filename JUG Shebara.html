@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUG Shebara</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --primary-color:#007c7c;
+    --text-dark:#1a1a1a;
+    --bg-light:#ffffff;
+}
+
+body{
+    margin:0;
+    font-family:'Playfair Display', serif;
+    background:var(--bg-light);
+    color:var(--text-dark);
+    overflow-x:hidden;
+}
+
+.menu-btn{
+    font-size:28px;
+    cursor:pointer;
+    padding:15px;
+    position:fixed;
+    z-index:1000;
+}
+.overlay{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    display:none;
+    top:0;
+    left:0;
+    z-index:900;
+}
+.sidebar{
+    position:fixed;
+    top:0;
+    left:-320px;
+    width:300px;
+    height:100%;
+    background:#f5f5f5;
+    padding:25px;
+    transition:0.4s;
+    box-sizing:border-box;
+    z-index:1000;
+}
+.logo{
+    text-align:center;
+    font-size:30px;
+    font-weight:600;
+    margin-bottom:30px;
+    color:#000;
+}
+.login{
+    background:#e6e6e6;
+    padding:12px;
+    border-radius:25px;
+    text-align:center;
+    margin-bottom:30px;
+}
+.login a{
+    text-decoration:none;
+    color:#000;
+}
+.menu-item{
+    padding:18px 0;
+    font-size:18px;
+    border-bottom:1px solid #ddd;
+}
+.menu-item a{
+    text-decoration:none;
+    color:#000;
+}
+.menu-item a:hover{
+    color:#008080;
+}
+.map{
+    margin-top:40px;
+    font-size:17px;
+}
+.map a{
+    text-decoration:none;
+    color:#000;
+}
+.map a:hover{
+    color:#008080;
+}
+
+.hero{
+    width:100%;
+    height:70vh;
+    position:relative;
+    overflow:hidden;
+}
+.hero-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:brightness(65%);
+}
+.hero-text{
+    position:absolute;
+    bottom:60px;
+    right:60px;
+    color:#fff;
+}
+.hero-text h1{
+    font-size:2.5rem;
+    font-weight:600;
+}
+
+.main-content{
+    padding:15px 5% 0;
+}
+.back-btn{
+    text-decoration:none;
+    color:#888;
+    font-size:14px;
+}
+.back-btn:hover{
+    color:var(--primary-color);
+}
+
+.gallery{
+    padding:20px 0% 60px;
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+}
+.gallery::-webkit-scrollbar{
+    display:none;
+}
+.card{
+    min-width:320px;
+    height:450px;
+    border-radius:20px;
+    overflow:hidden;
+    scroll-snap-align:start;
+    box-shadow:0 10px 20px rgba(0,0,0,0.1);
+}
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    cursor:pointer;
+}
+.lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+.lightbox img{
+    max-width:90%;
+    max-height:90%;
+    border-radius:10px;
+}
+@media(max-width:768px){
+    .hero-text h1{
+        font-size:1.2rem;
+    }
+    .card{
+        min-width:250px;
+        height:350px;
+    }
+}
+</style>
+</head>
+<body>
+
+<span class="menu-btn" onclick="openMenu()">☰</span>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="sidebar" id="sidebar">
+    <div class="logo">JUG</div>
+    <div class="login">
+        <a href="login.html">Login / Sign Up</a>
+    </div>
+    <div class="menu-item"><a href="resorts.html">Resorts</a></div>
+    <div class="menu-item"><a href="experiences.html">Experiences</a></div>
+    <div class="map"><a href="map.html">Map</a></div>
+</div>
+
+<header class="hero">
+    <img src="nn.jpg" class="hero-img">
+    <div class="hero-text">
+        <h1>Shebara</h1>
+    </div>
+</header>
+
+<main class="main-content">
+    <a href="resorts.html" class="back-btn">← Back to Resorts</a>
+</main>
+
+<section class="gallery">
+    <div class="card"><img src="assets/rr.jpg"></div>
+    <div class="card"><img src="assets/aa.jpg"></div>
+    <div class="card"><img src="assets/ff.jpg"></div>
+    <div class="card"><img src="assets/ss.jpg"></div>
+</section>
+
+<div class="lightbox" id="lightbox">
+    <img>
+</div>
+
+<script>
+const cards = document.querySelectorAll('.card img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+cards.forEach(img=>{
+    img.addEventListener('click',()=>{
+        lightbox.style.display='flex';
+        lightboxImg.src = img.src;
+    });
+});
+lightbox.addEventListener('click',()=>{
+    lightbox.style.display='none';
+});
+
+function openMenu(){
+    document.getElementById("sidebar").style.left = "0";
+    document.getElementById("overlay").style.display = "block";
+}
+function closeMenu(){
+    document.getElementById("sidebar").style.left = "-320px";
+    document.getElementById("overlay").style.display = "none";
+}
+</script>
+</body>
+</html>
